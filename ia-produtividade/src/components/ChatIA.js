@@ -13,9 +13,9 @@ function parseTarefas(texto) {
   for (const linha of linhas) {
     const trim = linha.trim();
     // Regex para linhas que começam com "1.", "2)", "- ", etc
-    if (/^(\d+[\.\)]\s+|-)\s*/.test(trim)) {
+    if (/^(\d+[.)]\s+|-)\s*/.test(trim)) {
       // Remove a numeração/traço do início
-      const nome = trim.replace(/^(\d+[\.\)]\s+|-)\s*/, '').trim();
+      const nome = trim.replace(/^(\d+[.)]\s+|-)\s*/, '').trim();
       if (nome.length > 0) {
         tarefas.push({ nome });
       }
