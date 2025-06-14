@@ -24,13 +24,14 @@
 
     // ✅ Listar tarefas do usuário autenticado
     router.get('/', authMiddleware, async (req, res) => {
-    try {
-        const tarefas = await Tarefa.find({ usuario: req.usuario.id }).sort({ dataCriacao: -1 });
-        res.json(tarefas);
-    } catch (err) {
-        res.status(500).json({ msg: 'Erro ao buscar tarefas.' });
-    }
-    });
+  try {
+    const tarefas = await Tarefa.find({ usuario: req.usuario.id }).sort({ dataCriacao: -1 });
+    res.json(tarefas);
+  } catch (err) {
+    console.error('Erro ao buscar tarefas:', err);  // <-- mostra erro completo no console
+    res.status(500).json({ msg: 'Erro ao buscar tarefas.' });
+  }
+});
 
     // ✅ Alternar status concluída
     router.patch('/:id/concluir', authMiddleware, async (req, res) => {

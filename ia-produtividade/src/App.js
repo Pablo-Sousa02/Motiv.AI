@@ -7,6 +7,7 @@ import TaskList from './components/TaskList';
 import GoalTracker from './components/GoalTracker';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import MeuPerfil from './components/MeuPerfil';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -42,9 +43,17 @@ function App() {
               </PrivateRoute>
             }
           />
-        </Routes>
-      </div>
-    </Router>
+          <Route 
+          path="/perfil"
+          element={
+            <PrivateRoute>
+              <MeuPerfil />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </div>
+  </Router>
   );
 }
 

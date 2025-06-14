@@ -7,23 +7,20 @@ function Navbar() {
   const navigate = useNavigate();
   const offcanvasRef = useRef(null);
 
-  // Referência para o modal Bootstrap
   const modalRef = useRef(null);
   const bsModalInstance = useRef(null);
 
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    // Fecha offcanvas ao mudar rota
     if (offcanvasRef.current) {
       const instance = Offcanvas.getInstance(offcanvasRef.current) || new Offcanvas(offcanvasRef.current);
       instance.hide();
     }
-    // Atualiza estado login
+
     const token = localStorage.getItem('token');
     setIsLogged(!!token);
 
-    // Inicializa o modal Bootstrap (uma vez)
     if (modalRef.current && !bsModalInstance.current) {
       bsModalInstance.current = new BootstrapModal(modalRef.current, {
         backdrop: 'static',
@@ -35,7 +32,6 @@ function Navbar() {
 
   const openModal = () => {
     if (bsModalInstance.current) bsModalInstance.current.show();
-    
   };
 
   const closeModal = () => {
@@ -53,7 +49,24 @@ function Navbar() {
     <>
       <nav className="navbar navbar-dark bg-dark shadow-sm">
         <div className="container-fluid">
-          <Link className="navbar-brand fw-bold" to="/">Motiv.AI</Link>
+          <Link
+            className="navbar-brand d-flex align-items-center"
+            to="/"
+            style={{
+              fontFamily: "'Orbitron', sans-serif",
+              fontWeight: '700',
+              fontSize: '1.6rem',
+              color: '#0ff',
+              textShadow:
+                '0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff',
+              letterSpacing: '0.15em',
+            }}
+          >
+            <span style={{ color: '#ff00ff', marginRight: '6px', fontSize: '1.8rem' }}>
+              &#x25B6;
+            </span>
+            Motiv.<span style={{ color: '#fff' }}>AI</span>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -105,16 +118,21 @@ function Navbar() {
                 )}
 
                 {isLogged && (
-                  <li className="nav-item d-flex align-items-center">
-                    <button
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/perfil">👤 Meu Perfil</Link>
+                    </li>
+                    <li className="nav-item d-flex align-items-center">
+                      <button
                         onClick={openModal}
                         className="btn btn-link nav-link"
                         style={{ cursor: 'pointer' }}
-                        title="Perfil"
-                        >
-                        <i className="bi bi-person-circle fs-2" style={{ color: 'gray' }}></i>
-                        </button>
-                  </li>
+                        title="Sair"
+                      >
+                        <i className="bi bi-box-arrow-right fs-2" style={{ color: 'gray' }}></i>
+                      </button>
+                    </li>
+                  </>
                 )}
               </ul>
             </div>
@@ -122,7 +140,7 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Modal Bootstrap */}
+      {/* Modal de Logout */}
       <div
         className="modal fade"
         id="profileModal"
@@ -144,6 +162,9 @@ function Navbar() {
             </div>
             <div className="modal-body">
               <p>Você está logado.</p>
+              <Link to="/perfil" className="btn btn-info w-100 mt-2" onClick={closeModal}>
+                Ver perfil completo
+              </Link>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-danger" onClick={handleLogout}>
